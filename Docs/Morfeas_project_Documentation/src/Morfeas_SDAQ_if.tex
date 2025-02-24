@@ -1,0 +1,43 @@
+\subsubsection{Morfeas SDAQ-if}
+The Morfeas SDAQ-if is a program that made specifically to controlling a SDAQnet. The SDAQnet is a network that consider form SDAQ type devices.
+On Layer 0 the SDAQnet can be describes as CANBus with the addition of power at the network cabling. The network topology of this is daisy chain.
+
+The Morfeas SDAQ-if is basing it's operation to SocketCAN where is a groovy way to integrate CANBus on a computer system.
+The SocketCAN provided as a module from the Linux foundation and can be used in every computer that runs GNU operating system with Linux as kernel.
+The principle behind SocketCAN is to provide similar functionality as regular internet sockets to CANbus.
+The Morfeas SDAQ-if used also the filter functionality that provided from the same kernel module with purpose to reduce the amount of jiffies that used in the procedure of decoding.\\
+The Morfeas SDAQ-if have the following functionalities:
+\begin{itemize}
+	\item Control one specific SDAQnet port.
+	\item Get electrical measurements of the SDAQnet port that controlling (if it's possible).
+	\item Give new or old known address to all SDAQ devices.
+	\item Avoid duplicate addresses.
+	\item Report the arrival or departure of an SDAQ from the SDAQnet.
+	\item Collect device and calibration (not points) information from the SDAQs that is connected on the SDAQnet port.
+	\item Set a SDAQ device in measuring if it's ready and all the data are collected.
+	\item Read messages from the SDAQs and decode them
+	\item Transfer the measurements to the Morfeas OPC-UA.
+	\item Synchronize the SDAQs.
+	\item Report the state of program and the devices on SDAQnet at a Logstat file with JSON format.
+\end{itemize}
+The Morfeas SDAQ-if is design to controlling a unique SDAQnet that provided as argument at the program call. The SDAQs that are behind this port are also controlled in a strict way.\\
+If a new SDAQ arrived the first procedure is to give and set it to an unique address. The algorithm that doing this described bellow.
+\begin{enumerate}
+	\item Check if the current address is parking or if it conflicting with some other. If not, leave it as it is and report this to the LogBook. Algorithm is done
+	\item Otherwise, check if the device's S/N is registered to LogBook. if yes then give it the old address. Algorithm is done.
+	\item If not, give the first available address and report it to the LogBook.
+\end{enumerate}
+The LogBook is a file stored under ``/var/tmp/Morfeas\_LogBooks/" directory and contains the correlation between address and serial number for each device that have appear on SDAQnet.
+The content of this file is in a binary form.
+
+After of the addressing procedure the Morfeas SDAQ-if request the device status and calibration data. Then if the device answer the Morfeas SDAQ-if report it's existence to the Morfeas OPC-UA
+and also report the information where mentioned before. After all this the Morfeas SDAQ-if put the device in Measuring mode.
+
+The synchronization of the SDAQs is done by sending a special CANbus message as it's described at the SDAQ's white papers. This implemented with a timer where is programmed to rise the alarm signal every second.
+The signaling mechanism is programmed at initialization to call a function in every alarm. This function is responsible to to many things one of them is to broadcast a synchronization signal to the SDAQnet every 10 seconds.
+An another responsibility of this function it to doing cleanup of the dead SDAQs from the data lists, this works as follow: The SDAQs send a report message (approx every 10sec),
+if two report messages does not received then the device is defined dead, deleted from the lists and reported to the Morfeas OPC-UA.
+
+The functionality of exporting JSON Logstat file is done in the main function and driven by a flag that set inside in the timers function.
+
+The Morfeas SDAQ-if get reference for the SDAQ message decoding from the SDAQWorker project, submodule of the Morfeas-core.

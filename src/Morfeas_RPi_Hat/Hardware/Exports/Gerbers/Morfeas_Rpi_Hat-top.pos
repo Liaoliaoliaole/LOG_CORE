@@ -1,0 +1,23 @@
+### Module positions - created on 23.3.20 13:55:18 ###
+### Printed by Pcbnew version kicad (5.1.5)-3
+## Unit = inches, Angle = deg.
+## Side : top
+# Ref     Val             Package                         PosX       PosY       Rot  Side
+C4        100nf           C_0805_2012Metric             5.4369    -4.0700    0.0000  top
+C5        100nf           C_0805_2012Metric             5.3000    -4.0700    0.0000  top
+C6        10uf            C_1210_3225Metric             5.5300    -2.9851  270.0000  top
+C7        100nf           C_0805_2012Metric             5.5600    -4.3331  270.0000  top
+C10       100nf           C_0805_2012Metric             5.1631    -4.0700    0.0000  top
+C11       100nf           C_0805_2012Metric             7.0700    -4.0700   90.0000  top
+C14       100nf           C_0805_2012Metric             5.8600    -3.9169  270.0000  top
+D6        NRVTSA4100ET3G  DO-214AC(SMA)                 5.7200    -4.4900   90.0000  top
+Q1        SUM110P06       TO-263-2                      6.9100    -3.3700  270.0000  top
+Q2        SUM110P06       TO-263-2                      6.0350    -3.3750  270.0000  top
+R1        22mΩ           R_2512_6332Metric             6.8600    -3.9108  270.0000  top
+R2        22mΩ           R_2512_6332Metric             6.0350    -3.9108  270.0000  top
+R3        1.3kΩ          R_1206_3216Metric             7.1700    -4.0549   90.0000  top
+R5        18kΩ           R_1206_3216Metric             7.1700    -3.8749   90.0000  top
+U3        TLV70433        TLV70433DBVT                  5.6726    -2.9500  270.0000  top
+U4        SP3232          SOIC-16_3.9x9.9mm_P1.27mm     5.3100    -4.2750  270.0000  top
+U5        24AA08          24AA08T-I&slash_OT            5.0100    -2.9800  180.0000  top
+## End

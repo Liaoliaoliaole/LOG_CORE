@@ -1,0 +1,285 @@
+\section{Appendix}
+\begin{lstlisting}[frame=single,caption=Example of Morfeas\_config.xml,label=lst:Morfeas_config.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CONFIG SYSTEM "Morfeas.dtd">
+<CONFIG>
+  <CONFIGS_DIR>/home/morfeas-test/configuration</CONFIGS_DIR>
+  <LOGGERS_DIR>/mnt/ramdisk/Morfeas_Loggers/</LOGGERS_DIR>
+  <LOGSTAT_DIR>/mnt/ramdisk/</LOGSTAT_DIR>
+  <COMPONENTS>
+    <OPC_UA_SERVER>
+      <APP_NAME>Default Application</APP_NAME>
+    </OPC_UA_SERVER>
+    <SDAQ_HANDLER>
+      <CANBUS_IF>can0</CANBUS_IF>
+    </SDAQ_HANDLER>
+    <SDAQ_HANDLER>
+      <CANBUS_IF>can1</CANBUS_IF>
+    </SDAQ_HANDLER>
+	<SDAQ_HANDLER>
+      <CANBUS_IF>vcan0</CANBUS_IF>
+    </SDAQ_HANDLER>
+    <MDAQ_HANDLER>
+      <DEV_NAME>LAB_MDAQ</DEV_NAME>
+      <IPv4_ADDR>10.0.0.10</IPv4_ADDR>
+    </MDAQ_HANDLER>
+    <IOBOX_HANDLER>
+      <DEV_NAME>LAB_IOBOX</DEV_NAME>
+      <IPv4_ADDR>10.0.0.7</IPv4_ADDR>
+    </IOBOX_HANDLER>
+    <MTI_HANDLER>
+      <DEV_NAME>LAB_MTI</DEV_NAME>
+      <IPv4_ADDR>10.0.0.11</IPv4_ADDR>
+    </MTI_HANDLER>
+  </COMPONENTS>
+</CONFIG>
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[frame=single,caption=Example of OPC\_UA\_Config.xml,label=lst:OPC_UA_Config.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NODESet SYSTEM "Morfeas.dtd">
+<NODESet>
+  <CHANNEL>
+    <ISO_CHANNEL>TE01</ISO_CHANNEL>
+    <INTERFACE_TYPE>MDAQ</INTERFACE_TYPE>
+    <ANCHOR>167772170.CH1.Val1</ANCHOR>
+    <DESCRIPTION>Test for LAB_MDAQ</DESCRIPTION>
+    <MIN>-15</MIN>
+    <MAX>15</MAX>
+    <UNIT>V</UNIT>
+  </CHANNEL>
+  <CHANNEL>
+    <ISO_CHANNEL>TE03</ISO_CHANNEL>
+    <INTERFACE_TYPE>MTI</INTERFACE_TYPE>
+    <ANCHOR>184549386.ID:4.CH4</ANCHOR>
+    <DESCRIPTION>Test for LAB_MTI</DESCRIPTION>
+    <MIN>0</MIN>
+    <MAX>50</MAX>
+    <UNIT>C</UNIT>
+  </CHANNEL>
+  <CHANNEL>
+    <ISO_CHANNEL>TE00</ISO_CHANNEL>
+    <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+    <ANCHOR>1.CH1</ANCHOR>
+    <DESCRIPTION>Test for SDAQ</DESCRIPTION>
+    <MIN>-10</MIN>
+    <MAX>1000</MAX>
+  </CHANNEL>
+  <CHANNEL>
+    <ISO_CHANNEL>TE02</ISO_CHANNEL>
+    <INTERFACE_TYPE>IOBOX</INTERFACE_TYPE>
+    <ANCHOR>117440522.RX1.CH2</ANCHOR>
+    <DESCRIPTION>Test for LAB_IOBOX RX1 CH2</DESCRIPTION>
+    <MIN>-200</MIN>
+    <MAX>1200</MAX>
+    <UNIT>C</UNIT>
+  </CHANNEL>
+</NODESet>
+\end{lstlisting}
+\newpage
+\begin{tree_box}[label=tree:OPC_UA_nodeset, title=Morfeas OPC-UA Nodeset]
+\dirtree{%
+	.1 /.
+		.2 ISO\_Channels.
+			.3 (..).
+		.2 Interfaces.
+			.3 IOBOX-ifs.
+			.3 MDAQ-ifs.
+			.3 SDAQ-ifs.
+			.3 MTI-ifs.
+		.2 RPI\_Health\_status.
+			.3 CPU\_Util(\%).
+			.3 CPU\_Temp(°F).
+			.3 Disk\_Util(\%).
+			.3 RAM\_Util(\%).
+}
+\end{tree_box}
+\begin{tree_box}[title=OPC-UA nodeset for IOBOX-ifs]
+	\dirtree{%
+		.4 IOBOX-if(*).
+			.5 Device\_name.
+			.5 IO-BOX Status.
+			.5 IO-BOX Status value.
+			.5 IPv4 Address.
+			.5 I-Link Power Supply.
+				.6 Power Supply Vin(V).
+				.6 CH(1..4).
+					.7 Iout(A).
+					.7 Vout(V).
+			.5 Receivers.
+				.6 RX(1..4).
+					.7 CH(1..16).
+						.8 Status.
+						.8 Status\_value.
+						.8 Value.
+					.7 Index.
+					.7 RX\_Status.
+					.7 RX\_success.
+	}
+\end{tree_box}
+\begin{tree_box}[title=OPC-UA nodeset for MDAQ-ifs]
+	\dirtree{%
+		.4 MDAQ-if(*).
+			.5 Device Name.
+			.5 IPv4 Address.
+			.5 Index.
+			.5 MDAQ Status.
+			.5 MDAQ Status value.
+			.5 Board Temperature(°C).
+			.5 Channels.
+				.6 (CH1..8).
+					.7 Value1..3.
+						.8 Measurement.
+						.8 Status.
+						.8 Status value.
+	}
+\end{tree_box}
+\begin{tree_box}[title=OPC-UA nodeset for SDAQ-ifs]
+	\dirtree{%
+		.4 SDAQ-if(*).
+			.5 Bus\_Util(\%).
+			.5 Dev\_on\_Bus.
+			.5 Electrics\DTcomment{Only if Morfeas\_RPI\_hat is detected and calibrated}.
+				.6 Amperage(A).
+				.6 Voltage(V).
+				.6 Shunt Temp(°F).
+			.5 SDAQnet.
+				.6 SDAQ-*(\#\#).
+					.7 Address.
+					.7 Connected on Bus.
+					.7 S/N.
+					.7 TimeDiff.
+					.7 Info.
+						.8 Channels on SDAQ.
+						.8 Firm\_rev.
+						.8 HW\_rev.
+						.8 Max\_cal\_points.
+						.8 Samplerate.
+						.8 Type.
+					.7 Status.
+						.8 Error.
+						.8 Mode.
+						.8 Status.
+						.8 inSync.
+					.7 Channels.
+						.8 CH1..n.
+							.9 Calibration Date.
+							.9 Calibration Points.
+							.9 Period (Months).
+							.9 Status.
+							.9 Status value.
+							.9 Timestamp.
+							.9 Unit.
+							.9 Value.
+	}
+\end{tree_box}
+\newpage
+\begin{tree_box}[title=OPC-UA nodeset for MTI-ifs]
+	\dirtree{%
+		.4 MTI-if(*).
+			.5 Device Name.
+			.5 IPv4 Address.
+			.5 MTI Status.
+			.5 MTI Status value.
+			.5 MTI Health.
+				.6 Battery Capacity(\%).
+				.6 Battery Voltage(V).
+				.6 Battery Status(\%).
+				.6 CPU Temperature(°C).
+			.5 Radio.
+				.6 Data rate.
+				.6 RF Channel.
+				.6 Tele Dev type.
+				.6 new\_MTI\_config()\DTcomment{Method to control the radio mode}.
+				.6 Tele(***)\DTcomment{Contents depends at radio mode}.
+	}
+\end{tree_box}
+\begin{tree_box}[title=OPC-UA nodeset MTI's Tele object at TC mode]
+	\dirtree{%
+		.1 Tele(TC\#).
+			.2 Packet Index.
+			.2 RX Success ratio(\%).
+			.2 RX Status.
+			.2 Sample to Fail.
+			.2 Samples to Validate.
+			.2 isValid.
+			.2 CH(1..N).\DTcomment{N=amount of inputs}.
+				.3 Status.
+				.3 Status Value.
+				.3 Value.
+	}
+\end{tree_box}
+\begin{tree_box}[title=OPC-UA nodeset MTI's Tele object at QUAD mode]
+	\dirtree{%
+		.1 Tele(QUAD).
+			.2 Packet Index.
+			.2 RX Success ratio(\%).
+			.2 RX Status.
+			.2 isValid.
+			.2 CH1..2.
+				.3 Raw Counter
+				.3 Status.
+				.3 Status Value.
+				.3 Value.
+				.3 Pulse Gen.
+					.4 Max.
+					.4 Min.
+					.4 Saturate.
+					.4 Scale.
+					.4 new\_Gen\_config()\DTcomment{Method to configure PWM Gens}.
+	}
+\end{tree_box}
+\newpage
+\begin{tree_box}[title=OPC-UA nodeset MTI's Tele object at RMSW/MUX mode, label=tree:RMSW/MUX]
+	\dirtree{%
+		.6 Tele(RMSW/MUX).
+			.7 Amount of Devices.
+			.7 Global Controls.
+				.8 Global ON/OFF Control.
+				.8 Global ON/OFF state.
+				.8 Global Sleep Control.
+				.8 Global Sleep state.
+				.8 MTI\_Global\_SWs()\DTcomment{Method to configure the controls}.
+			.7 MUX(ID:\#).
+				.8 Device temp(°C).
+				.8 ID.
+				.8 Last RX(sec).
+				.8 Memory Offset.
+				.8 Supply Voltage(V).
+				.8 Type.
+				.8 Controls.
+					.9 CH(1..4)\_state.
+					.9 TX Rate(sec).
+					.9 ctrl\_tele\_SWs()\DTcomment{Method to control the Multiplexers}.
+			.7 Mini\_RMSW(ID:\#).
+				.8 Device temp(°C).
+				.8 ID.
+				.8 Last RX(sec).
+				.8 Memory Offset.
+				.8 Supply Voltage(V).
+				.8 Type.
+				.8 CH(1..4).
+					.9 Measurement.
+					.9 Status.
+					.9 Status value.
+				.8 Controls.
+					.9 Main Switch.
+					.9 TX Rate(sec).
+					.9 ctrl\_tele\_SWs()\DTcomment{Method to control the Main switch}.
+			.7 RMSW(ID:\#).
+				.8 Device temp(°C).
+				.8 ID.
+				.8 Last RX(sec).
+				.8 Memory Offset.
+				.8 Supply Voltage(V).
+				.8 Type.
+				.8 Controls.
+					.9 CH(1..2)\_state.
+					.9 Main switch.
+					.9 TX Rate(sec).
+					.9 ctrl\_tele\_SWs()\DTcomment{Method to control the Switches}.
+				.8 CH(1..2).
+					.9 CH\# Amperage(A).
+					.9 CH\# Voltage(V).
+	}
+\end{tree_box}

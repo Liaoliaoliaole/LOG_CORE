@@ -1,0 +1,134 @@
+\subsubsection{Morfeas MTI-if}
+The Morfeas MTI-if is a multithread program where is made to provide functionality of support and system integration for MTIs (Mobile telemetry Interface).
+The purpose of this kind of devices is to provide the measurements from some slow speed digital telemetries via MODBus-TCP protocol.
+The Morfeas MTI-if similarly with IO-BOX and MDAQ interfaces are utilize the libModbus to implement communication with the device.
+However, the different of this Morfeas component is that the remote communication is bidirectional.
+Thus, not only read data but also send controlling commands.
+
+The Morfeas MTI-if using two threads. One for the read and decode of data and a second one that executing commands and sending messages to MTI.
+The first thread is responsible for reading the telemetry(ies) data from the MTI and reading data in a similar way like the MDAQ and IO-BOX ifs.
+Due to this the functionality of the first thread will not be discus further in this section.
+The second thread making a D-Bus server that read and execute instruction from the callers.
+
+The D-Bus is full duplex IPC mechanism that provide remote procedure call (RPC) on the software that implement it.
+Developed initialy by Red hat, inc to support a standardized communication way on GLDE (GNU/Linux Desktop Environment).
+The Morfeas MTI-if using the low level implementation library that provided from ``freedesktop.org''.\\
+
+The mechanism of the second thread (D-Bus server) described as follows:\\
+The Morfeas MTI-if's D-Bus server start by claiming a D-Bus server name with form \\``org.freedesktop.Morfeas.MTI.\(Dev\_name\)'' at the D-Bus system bus.
+On this name an D-BUS interface is linked with name ``Morfeas.MTI.(Dev\_name)''.
+Using this information a D-BUS clients can request service from the Morfeas MTI-if.
+This done by calling a dedicated method on the D-BUS interface of the Morfeas MTI-if and provide the required argument with it.
+The arguments for all methods must gives as string in JSON format.
+The implemented methods derived at the table \ref{tab:MTI-if_D-BUS_methods}.
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+	  \textbf{Method name} & \textbf{Description}\\
+      \hline
+      new\_MTI\_config & Configuration of the MTI's Radio mode.\\
+      MTI\_Global\_SWs & Configuration of the MTI's Global switches (Only for RMSW/MUX).\\
+	  ctrl\_tele\_SWs & Control of RMSW/MUX switches or multiplexers(Only for RMSW/MUX)\\
+      new\_PWM\_config & Configuration of the MTI's outputs PWM 1\&2 (Only for QUAD).\\
+	  echo & Method that echoing to the client the sent argument\\
+	  \hline
+    \end{tabular}
+	\caption{Morfeas MTI-if D-BUS methods}
+	\label{tab:MTI-if_D-BUS_methods}
+  \end{center}
+\end{table}
+
+Each method required as input argument a string in JSON format. The output of each method is also a string with a report of the request in a human readable form.
+The following paragraphs will explain in details the required arguments for each method.
+
+\begin{lstlisting}[frame=single,caption=Argument for new\_MTI\_config()]
+{
+  "new_RF_CH":0-126,\\Only even numbers.
+  "new_mode":"Disabled"|"TC16"|"TC8"|"RMSW/MUX"|"QUAD"|"TC4",
+  "G_SW":false-true,\\Optional. Used at RMSW/MUX
+  "G_SL":false-true,\\Optional. Used at RMSW/MUX
+  "StV":0,\\Optional. Used in all modes except RMSW/MUX
+  "StF":0\\Optional. Used in all modes except RMSW/MUX
+}
+\end{lstlisting}
+
+The \textbf{new\_RF\_CH} argument give the radio channel that the MTI will be tuned. Must be an even number between 0 and 126.
+
+The \textbf{new\_mode} argument is controlling the mode of the MTI's radio and modem.
+This must have one of the values that showed above. The mode "Disable" set the Radio off and the "RMSW/MUX" at TRX mode.
+All the other modes set the Radio to simplex reception.
+
+The \textbf{StV} and \textbf{StF} are arguments that controlling the ``data valid flag'' mechanism.
+\textbf{StV} is abbreviation of the sentence "Samples to Validate" and the purpose of it is to set the amount of sequential RX messages that need to be valid before set the "isValid" flag.
+\textbf{StF} is abbreviation of the sentence "Samples to Failure" and is exactly opposite of \textbf{StV}, the amount of sequential non valid samples than need to pass before the "isValid" flag reset.
+
+The \textbf{G\_SW} and \textbf{G\_SL} are arguments that used to setup the MTI's Global control mechanism, take affect only at ``RMSW/MUX" radio mode.
+The \textbf{G\_SW} is abbreviation for "Global Switch", when this is true the state of the switches can be control by the method "MTI\_Global\_SWs"(listing~\ref{lst:MTI_Global_SWs}).
+
+The \textbf{G\_SL} is abbreviation for "Global Sleep" and when it's true is energizing the Sleep mechanism. 
+This mechanism have only effect on Mini\_RMSWs and have purpose to reduce the telemetry update rate with have as result to lower the power consumption.
+It's can be control similarly like \textbf{G\_SW}.
+
+\begin{lstlisting}[frame=single,caption=Argument for MTI\_Global\_SWs(), label=lst:MTI_Global_SWs]
+{
+  "G_P_state":true-false,//Ctrl state of GLobal Switch.
+  "G_S_state":true-false//Ctrl state of GLobal sleep.
+}
+\end{lstlisting}
+
+\begin{lstlisting}[frame=single,caption=Argument for ctrl\_tele\_SWs(), label=lst:ctrl_tele_SWs]
+{
+  "mem_pos":0-32,
+  "tele_type":"Mini_RMSW"|"RMSW"|"MUX",
+  "sw_name":"Main_SW"|"SW_(1..2)"|"Sel_(1..4)",
+  "new_state":true-false
+}
+\end{lstlisting}
+On listing~\ref{lst:ctrl_tele_SWs} presented the structure and contents of the JSON string that use as argument to method ctrl\_tele\_SWs().
+\textbf{mem\_pos} is the argument that shows to Morfeas MTI-if D-BUS Server which part of the MTI's MODBus register space is linked with the RMSW/MUX type device that the configuration will be bone.
+This argument is provided by the Morfeas MTI-if to the OPC-UA and also to the exported Logstat file.\\
+The argument \textbf{tele\_type} is an additional validation mechanism for the Morfeas MTI-if that checks if the device that linked to MODBus register space on \textbf{mem\_pos} is match with the user's order.
+Must have a value from the allowed one where showed at listing~\ref{lst:ctrl_tele_SWs}.\\
+The argument \textbf{sw\_name} give the information for which switch of the RMSW/MUX family type device the new\_state will go. Values of \textbf{"Sel\_(1..4)"} are referred to MUX tele\_type only.
+
+**if this global switch mechanism is active the method "ctrl\_tele\_SWs" does not have effect at RMSW and Mini\_RMSW tele\_type. And will report a dedicated error on call.
+
+\begin{lstlisting}[frame=single,caption=Argument for new\_PWM\_config(), label=lst:new_PWM_config]
+{
+  "PWM_gens_config":
+    [
+	  { //Configuration for Gen 1
+		"scaler":(Real number),
+		"min":(Real number),//Low limit
+		"max":(Real number),//High limit
+		"saturation":true-false // Set modulation stop at limits.
+	  },
+	  {  //Configuration for Gen 2 same as above
+            ...
+	  }
+    ]
+}
+\end{lstlisting}
+On listing~\ref{lst:new_PWM_config} the structure of the argument for method ``new\_PWM\_config()" is presented.
+This as is shown given as a JSON object with tag ``PWM\_gens\_config" that contains an array with two elements. The position of the element define and to in which generator the configuration will go.
+In case that only one of two generators will be configured the element on the position of the other can be replace with \textbf{null}.
+The positions with \textbf{null} as content will not affect the configuration of the generator, or in other words will leave it as it was before.
+
+The argument \textbf{scaler} given in a form of real number and have meaning to provide the correlation between the RAW counts and the physical unit that measured by the quadrature telemetry.
+The argument \textbf{scaler} have unit $\displaystyle\frac{\text{Physical unit}}{count}$. Internally the RAW counter value multiplied with the scaler and provides as value for the channel.
+
+The arguments \textbf{min},\textbf{max} are setting the limits for each of MTI's generator. This arguments given in real number from and have units the physical unit that is measured.
+The \textbf{min} define in which value the generator will have 0\% modulation and the \textbf{max} accordingly for 100\%.
+
+The last argument ("saturation") is boolean and controlling the behavior of the generator in counting. If it's set to true the pulse output will lock on the limits values.
+This means that the modulation factor of the output will remain at 0 or 100\% even if the channels value pass the limits.\\
+if the argument "saturation" set to false the modulation of the generator will reset each time that the value pass a multiple of the limit. This configuration have meaning to done
+only if the physical unit that is measured is periodical (eg. position of a rotational shaft).\\
+
+The method \textbf{echo} used for testing purposes and it's echoing back what ever string the client have sent as argument.\\
+
+All the methods return a report in a string form that explain if the requested command is executed or the kind of error that make it fail.\\
+
+The configuration of the MTI stored on a local file in binary form. This, used in every new start and restoring the MTI to the previous state.
+This file located at '/var/tmp/Morfeas\_MTI\_Configurations/' and have name 'Morfeas\_MTI\_(Device name)'.

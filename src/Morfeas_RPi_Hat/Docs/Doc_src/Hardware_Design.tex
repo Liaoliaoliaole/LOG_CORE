@@ -1,0 +1,47 @@
+\section{Hardware Design}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth,angle=0]{./Artwork/System.png}
+	\caption{Morfeas RPI Hat's Block diagram}
+	\label{fig:block}
+\end{figure}
+
+At figure~\ref{fig:block} present the design of the Morfeas RPI Hat in a simplified block diagram. The connection between the Raspberry PI and the Morfeas RPI hat done
+from the RPi pin header that provided on the Raspberry board for expansion. From the pins that provided only the $I^2C$, UART, 5V power and some GPIO are used.
+The 5V Power pins used to feedback with power the Raspberry Pi computer, for this a dedicated step down converter where is located onboard,
+in addition the Power supply is supplying with power all the circuits that exist on board.
+
+The UART pins driven directly to a dedicated LVTTL to RS-232 converter and from this directly a female pinhead. From there it's can be connected to any kind of connector
+(like DB-9).
+
+The $I^2C$ bus is the main communication way between the device onboard and the Raspberry pi computer. The device that communicating by this described bellow.
+\begin{itemize}
+	\item Current Sense Amplifier(CSA), one for each Port.
+	\item Configuration serial EEPROM.
+	\item Real Time Clock.
+\end{itemize}
+
+The CSAs are implemented by the MAX9611 which is a integrated circuit with main functionality to provide current measurements by reading the voltage of a shunt resistor on the high supple side.
+In addition, the same IC can digitize the measurements of port's current, Output voltage and it's own temperature. All of them can be read by the $I^2C$ Bus.
+Also the same IC can used as a electronic fuse in linear or switching mode.
+For the implementation of the Morfeas RPI Hat the MAX9611 ICs are configured to work in the switching mode.
+The MAX9611 are controlling P-Channel MOSfets that are switching ON or OFF the power of the port.
+The threshold point is programmed by two resistors that make a voltage divider. The threshold limit for each Channel is approximately 4 Amperes.\\
+More information for this can be found at the MAX9611's Datasheet at the ``Datasheets" directory inside the ``Hardware" folder.
+
+The Configuration EEPROM (24AA08) give or get the calibration table for each CSA on request of the Morfeas system, or the Morfeas\_RPI\_Hat software.
+This EEPROM have four individual memory pages with 2kbit in each.
+For the current implementation of the Morfeas RPI Hat only two of them are used to store the calibration tables.
+
+The RTC is an IC that keeping track of the absolute time. In general provide the functionality on a computer to can have the absolute time in every request.
+The RTCs must have a battery as second supply that will allow them to count even if the main supply is off power.
+Some RTCs required to have an external crystal resonator where use as part of the feedback filter of Pierce oscillator.
+The frequency of the oscillator is derived from the characteristics of the filter and because is crystal based it have very good stability ($\pm3.5ppm$).
+The output of the oscillator is used as a clock signal for a programmable counter where is counting the time.
+The IC (DS3231) that have been chosen for this design have all the part of the oscillator (including the filter) integrated.\\
+The communication with this IC done by $I^2C$ bus. All the operate with the RTC is handled by the kernel of the GNU operating system.
+
+In addition to all the above the Morfeas RPI Hat using also some extra GPIO pins from the RPI Header that driving a RGB LED.
+This have purpose to provide an indication of the mode of the Morfeas System (Morfeas\_SDAQ\_if).
+
+

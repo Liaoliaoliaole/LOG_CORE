@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xfrac}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[]{pdfpages}
+\usepackage{multicol}
+\usepackage{gensymb}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref}
+\usepackage{varwidth}
+\usepackage{listings}
+\usepackage[bottom]{footmisc}
+\usepackage{cleveref}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Morfeas RPi Hat}
+\chead{Technical Reference}
+\rhead{Page \thepage}
+\rfoot{Page \thepage}
+
+%Title declaration
+\title{\huge``Morfeas RPi Hat''\\Technical Reference}
+\date{}
+\author{}
+
+\begin{document}
+%Title page
+\clearpage
+\begin{figure}
+\centering
+	\includegraphics[width=2.5in]{../../../Docs/Morfeas_project_Documentation/ArtWork/Morfeas_logo_cyan.png}
+\end{figure}
+\maketitle
+\thispagestyle{empty}
+\begin{figure}
+\centering
+	\includegraphics[width=3in]{./Artwork/PCB_3d_render.png}
+\end{figure}
+\newpage
+%History page
+\section{Change History}
+Dec 7,12020 : Sam Harry Tzavaras -- Initial Work.
+%License page
+\newpage
+\section{License}
+Copyright (C)  12019  Sam Harry Tzavaras.\\
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU Free Documentation License".
+\section{Disclaimers}
+The following document referred as Technical Reference of the Morfeas RPI hat. Thus, evolving description of hardware. Any modification of it must take as responsibility of
+the technician which did it. The author of this document does not have any responsible for any damage that this device can make after or before of any kind of modification. 
+
+\input{./Doc_src/Introduction}
+\newpage
+%Contents page
+\newpage
+\tableofcontents
+\newpage
+\input{./Doc_src/Hardware_Design}
+\input{./Doc_src/Morfeas_RPI_Hat_software}
+\input{./Doc_src/Calibration}
+\input{./Doc_src/Appendix}
+\end{document}
+

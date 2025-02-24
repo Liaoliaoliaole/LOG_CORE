@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<!DOCTYPE NODESet
+  SYSTEM 'Morfeas.dtd'>
+<NODESet>
+        <CHANNEL>
+                <ISO_CHANNEL>TE1</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>1.CH1</ANCHOR>
+                <DESCRIPTION>This is a test 1</DESCRIPTION>
+                <MIN>0</MIN>
+                <MAX>200</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE2</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>2.CH01</ANCHOR>
+                <DESCRIPTION>This is a test 2</DESCRIPTION>
+                <MIN>-100.55</MIN>
+                <MAX>300</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE3</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>3.CH1</ANCHOR>
+                <DESCRIPTION>This is a test 3</DESCRIPTION>
+                <MIN>0</MIN>
+                <MAX>500</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE4</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>4.CH1</ANCHOR>
+                <DESCRIPTION>This is a test 4</DESCRIPTION>
+                <MIN>0</MIN>
+                <MAX>500</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE567</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>626191848.CH1</ANCHOR>
+                <DESCRIPTION>Test ISO channel for S/N:626191848</DESCRIPTION>
+                <MIN>0</MIN>
+                <MAX>500</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE89a</ISO_CHANNEL>
+                <INTERFACE_TYPE>SDAQ</INTERFACE_TYPE>
+                <ANCHOR>624642519.CH5</ANCHOR>
+                <DESCRIPTION>Test ISO channel for S/N:624642519</DESCRIPTION>
+                <MIN>0</MIN>
+                <MAX>500</MAX>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE100_RX</ISO_CHANNEL>
+                <INTERFACE_TYPE>IOBOX</INTERFACE_TYPE>
+                <ANCHOR>117440522.RX1.CH1</ANCHOR>
+                <DESCRIPTION>Test ISO channel for IOBOX</DESCRIPTION>
+                <MIN>-40</MIN>
+                <MAX>1500</MAX>
+                <UNIT>°C</UNIT>
+        </CHANNEL>
+        <CHANNEL>
+                <ISO_CHANNEL>TE200</ISO_CHANNEL>
+                <INTERFACE_TYPE>MDAQ</INTERFACE_TYPE>
+                <ANCHOR>167772170.CH1.Val1</ANCHOR>
+                <DESCRIPTION>Test ISO channel for MDAQ</DESCRIPTION>
+                <MIN>-2.5</MIN>
+                <MAX>2.5</MAX>
+                <UNIT>°C</UNIT>
+        </CHANNEL>
+<!---->
+</NODESet>
+

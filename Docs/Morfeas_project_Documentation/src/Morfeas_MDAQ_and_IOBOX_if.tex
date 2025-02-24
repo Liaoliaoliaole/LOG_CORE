@@ -1,0 +1,10 @@
+\subsubsection{Morfeas MDAQ-if \& Morfeas IOBOX-if}
+Both of this components are made similarly and provide the capability to get the measurements from some specific devices by ModBus-TCP. ModBus-TCP is a protocol that based on ModBus-RTU where is a RS-485 base protocol made by MODicon and have
+as purpose to give a way of communication between PLCs. Nowadays the ModBus protocol is maintained by the Modbus organization and provided as a free of charge and free to use protocol.
+
+Morfeas MDAQ-if and Morfeas IO-BOX-if are single thread FSM type programs. The ModBus-TCP functionality is achieved using the LibModbus library where is a free/libre library that provide MODBus RTU and TCP functionality.
+
+Both programs start register them sel to the Morfeas OPC-UA and then open a special TCP socket that used as the way to extract information from IO-BOX and MDAQ type device. Then if the socket open successfully the programs report this to the Morfeas OPC-UA
+and start requesting data. The request of data done via ModBus registers read commands with repetition of 100ms. When the data from the ModBus registers enters the program are decoded and transmitted to the Morfeas OPC-UA via Morfeas IPC.
+
+Similarly with Morfeas SDAQ-if a JSON Logstat file is exported with measurement and other status information every second.

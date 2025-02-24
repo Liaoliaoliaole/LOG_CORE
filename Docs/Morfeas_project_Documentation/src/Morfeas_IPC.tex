@@ -1,0 +1,12 @@
+\section{Morfeas IPC}
+The main communication way between the morfeas components is the Morfeas IPC. The Morfeas IPC is nothing more from a protocol that define the type and
+the way of communication between the components. The Morfeas IPC utilities simplex communication between multiple source and one receptor.
+The transaction mechanism that used for this is based on \textbf{Named Pipes} (or \textbf{FIFO}). In GNU a named pipe represent by a file,
+for the Morfeas System this file located under \textbf{/tmp} and have name \textbf{Morfeas\_handlers\_FIFO}.
+If the named pipe file does not exist, will be created by the first component that not found it.
+
+The data that transferred via the Morfeas IPC is follow the Morfeas IPC Protocol where defined at files under ``./src/IPC`` directory.
+In details, the data that transmitted between the component is in a telegram form with fixed size.
+The size of the telegram is defined by the message with the biggest size.
+The messages where does not occupied the wholly telegram space filling the remaining space with zeros.
+Each component use the Morfeas IPC in three ways: To register or unregister itself, and transfer data.

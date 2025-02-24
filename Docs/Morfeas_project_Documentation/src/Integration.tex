@@ -1,0 +1,21 @@
+\newpage
+\section{Integration of new components}
+All the future component must follow the principles of the project in every matter.
+
+To integrate a new component you must done from anyone that have a complete understanding of all the mechanisms and techniques that have been used and also whatever will be used.
+Also any future integration have to be done in a way that the future developers will have all the freedoms that given initially.
+In other word the GPLv3 or later licensing model must to be followed verbatimly.\\
+
+In details of integration:
+\begin{itemize}
+	\item All components must be written in ANSI C (C99 or later).
+	\item All components must be free/libre software.
+	\item All components must not use or call any proprietary library.
+	\item All components must use only libraries that are free/libre or open source that are compatible with GPLv3 or later.
+	\item The files of any new component must be located on a dedicated directory under the src.
+	\item The new component must have a separate code file with the OPC-UA related functions, exactly as all the others have.
+	\item The Morfeas IPC have to be modified accordingly to the needs of the new component.
+	\item The Morfeas OPC-UA must modified in a way to provide the OPC-UA nodeset and to can accept the new component's data.
+	\item The Project's Makefile must change accordingly.
+	\item To update the project reference guide, by adding the documentation of the new component.
+\end{itemize}

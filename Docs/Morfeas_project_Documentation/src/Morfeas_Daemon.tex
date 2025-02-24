@@ -1,0 +1,17 @@
+\subsection{Morfeas Daemon}
+The Morfeas Daemon one of the Morfeas components and it's made to start each component as is specified by the user.
+The specification done by the system configuration file, this file have name Morfeas\_config.xml (Example at listing \ref{lst:Morfeas_config.xml}). 
+And contains the amount and type of components that consist the Morfeas system with then required arguments (or settings).\\
+The construction for the Morfeas\_config.xml must done in respect to Morfeas.dtd file.
+
+Although that the Morfeas Daemon can run in a standalone mode is more common to work together with the Systemd. 
+The Systemd is a software daemon suite that developed by the Red Hat, Inc to provide an init solution for the daemons that used on the current GNU instant.
+Nowadays is a standard packet in almost every distributions of the GNU operating system.
+
+The integration procedure for Morfeas Daemon to Systemd described in details at README.md file.
+
+When the Morfeas Daemon start the first job that is doing is to attempt a read of the Morfeas\_config.xml, after of this is check it's validity and if this is successful then 
+attempt to start every component with the arguments that are given in the configuration file. For each component the Morfeas Daemon will make a new thread and will fork the component program to it.
+The stdout of the component shall redirected to the Morfeas daemon's thread and from there will be redirect as reported to the systemd or if it runs in a standalone mode will print it on the display.
+Also at every termination command the Morfeas Daemon have the responsibility to terminate all of it's child processes before terminate itself. 
+This done by using the signaling mechanism that provided from the GNU operating system.

@@ -1,0 +1,13 @@
+\section{Introduction}
+This document referred as Documentation for the "Morfeas\_RPi\_Hat" device. This is a PCB shield that is designed to be compatible with the Raspberry Pi pin header.
+The purpose of this device is to provide electrical measurements and an electronic fuse for each of the SDAQnet ports, also provide a real time clock and 
+a RS-323 serial port with purpose to be the backport teletype of the Morfeas system unit. 
+The measurements that supporter is Output voltage of the port, supplied port's current and temperature of each current sense amplifier (CSA) silicon die.\\
+In addition an electronic fuse is implemented for each port that limit the supply current to $\approx$4A.
+Also an EEPROM with the calibration data for each CSA is located on board. The communication between the onboard devices and the RPi done
+via Inter-Integrated Circuit ($I^2C$) Bus.
+
+The "Morfeas\_RPi\_Hat" is designed at KiCAD5 and distributed under the TAPRv1 or later. 
+The supporting software for this device is written in ANSI C and distributed under GPLv3 or later. 
+This document is distributed under FDLv1.3 or later.
+All the licenses is included as files in source.
