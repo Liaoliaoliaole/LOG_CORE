@@ -1,15 +1,19 @@
-*
-!*/
-!*.*
-*.*#
-!**/Makefile
-docs/Morfeas_project_Documentation/src/*.*
-!docs/Morfeas_project_Documentation/src/*.tex
+# Ignore build-related directories
 **/build/
 **/build-doc/
 **/work/
 **/work-doc/
-**/Thumbs.db
-#.gitignore
+
+# Ignore temporary or system files
+*.o
+*.obj
+*.exe
+*.log
+*.tmp
+*~
+*.swp
+Thumbs.db
+.DS_Store
+
 
 
