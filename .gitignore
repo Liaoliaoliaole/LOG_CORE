@@ -3,10 +3,6 @@
 **/build-doc/
 **/work/
 **/work-doc/
-**/src/noPoll/
-**/src/cJSON/
-**/src/open62541/
-**/src/sdaq-worker/
 
 # Ignore temporary or system files
 *.o

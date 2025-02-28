@@ -1,12 +1,16 @@
 [submodule "src/cJSON"]
 	path = src/cJSON
 	url = https://github.com/Liaoliaoliaole/LOG_lib_cJson.git
+	ignore = all
 [submodule "src/sdaq-worker"]
 	path = src/sdaq-worker
 	url = https://github.com/Liaoliaoliaole/LOG_sdaq_worker.git
+	ignore = all
 [submodule "src/open62541"]
 	path = src/open62541
 	url = https://github.com/Liaoliaoliaole/LOG_lib_open62541.git
+	ignore = all
 [submodule "src/noPoll"]
 	path = src/noPoll
 	url = https://github.com/Liaoliaoliaole/LOG_lib_noPoll.git
+	ignore = all
