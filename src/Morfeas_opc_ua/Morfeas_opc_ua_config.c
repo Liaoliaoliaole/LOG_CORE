@@ -41,7 +41,7 @@ UA_StatusCode Morfeas_OPC_UA_config(UA_ServerConfig *config, const char *app_nam
 	retval = UA_ServerConfig_setBasics(config);
     if(retval != UA_STATUSCODE_GOOD)
     {
-        UA_ServerConfig_clear(config);
+        UA_ServerConfig_clean(config);
         return retval;
     }
 
@@ -72,7 +72,7 @@ UA_StatusCode Morfeas_OPC_UA_config(UA_ServerConfig *config, const char *app_nam
     retval = UA_ServerConfig_addSecurityPolicyNone(config, NULL);// const UA_ByteString *certificate
     if(retval != UA_STATUSCODE_GOOD)
 	{
-        UA_ServerConfig_clear(config);
+        UA_ServerConfig_clean(config);
         return retval;
     }
 
@@ -82,7 +82,7 @@ UA_StatusCode Morfeas_OPC_UA_config(UA_ServerConfig *config, const char *app_nam
                 usernamePasswordsSize, usernamePasswords);
     if(retval != UA_STATUSCODE_GOOD)
 	{
-        UA_ServerConfig_clear(config);
+        UA_ServerConfig_clean(config);
         return retval;
     }
 
@@ -90,7 +90,7 @@ UA_StatusCode Morfeas_OPC_UA_config(UA_ServerConfig *config, const char *app_nam
     retval = UA_ServerConfig_addEndpoint(config, UA_SECURITY_POLICY_NONE_URI,
                                          UA_MESSAGESECURITYMODE_NONE);
     if(retval != UA_STATUSCODE_GOOD) {
-        UA_ServerConfig_clear(config);
+        UA_ServerConfig_clean(config);
         return retval;
     }
 
